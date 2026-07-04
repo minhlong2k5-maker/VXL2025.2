@@ -70,10 +70,8 @@ void initWiFiAndWeb(const char* ssid, const char* password) {
     server.begin();
 }
 
-// Gói dữ liệu JSON và đẩy lên Web qua WebSocket
-void sendDataToWeb(float ecgFiltered, int ppgFiltered, int ecgBeatAvg, int maxBeatAvg, int currentSpO2, String statusMsg) {
+void sendDataToWeb(float ecgFiltered, int ppgFiltered, int ecgBeatAvg, int maxBeatAvg, int currentSpO2, int currentPAT, String statusMsg) {
     if (ws.count() > 0) {
-        // 1. Chỉ cập nhật chuỗi thời gian 1 giây/lần
         static unsigned long lastTimeUpdate = 0;
         static char timeStrCached[32] = "--/--/---- --:--:--"; 
 
@@ -86,21 +84,23 @@ void sendDataToWeb(float ecgFiltered, int ppgFiltered, int ecgBeatAvg, int maxBe
             }
         }
 
-        // 2. Đóng gói JSON an toàn cho Async TCP
+        // CẬP NHẬT: Thêm biến "pat" vào chuỗi JSON
         String js;
-        js.reserve(150); // Cấp phát cứng 150 byte RAM để chống lag và phân mảnh
+        js.reserve(160); 
         js = "{\"v\":"; js += (int)ecgFiltered;
         js += ",\"p\":"; js += ppgFiltered;
         js += ",\"bE\":"; js += ecgBeatAvg;
         js += ",\"bM\":"; js += maxBeatAvg;
         js += ",\"o2\":"; js += currentSpO2;
+        js += ",\"pat\":"; js += currentPAT; // Biến PAT mới
         js += ",\"st\":\""; js += statusMsg;
         js += "\",\"t\":\""; js += timeStrCached;
         js += "\",\"rec\":"; js += (isRecording ? 1 : 0);
         js += "}";
 
-        // Đẩy đi an toàn tuyệt đối
-        ws.textAll(js);
+       if (ws.availableForWriteAll()) {
+            ws.textAll(js);
+       }
     }
 }
 

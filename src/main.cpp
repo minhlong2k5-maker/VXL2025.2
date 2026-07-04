@@ -1,8 +1,7 @@
 #include <Arduino.h>
 #include <esp_task_wdt.h>
-#include <Wire.h> // Khởi tạo I2C chung
+#include <Wire.h> 
 
-// Các module thư viện tự viết
 #include "sd_logger.h"
 #include "display_oled.h"
 #include "web_manager.h"
@@ -25,6 +24,12 @@ int yPos_PPG_current = 53;
 int maxBeatAvg = 0;
 int currentSpO2 = 0;
 
+// CÁC BIẾN MỚI CHO TÍNH TOÁN PAT
+unsigned long lastEcgTime = 0;
+unsigned long lastPpgTime = 0;
+bool newPpgBeat = false;
+int currentPAT = 0;
+
 // Cấu hình vòng lặp
 unsigned long lastSampleTime = 0;
 const int SAMPLE_INTERVAL = 4;
@@ -32,31 +37,28 @@ unsigned long lastLogTime = 0;
 const int LOG_INTERVAL = 1000;
 
 // Cấu hình Mạng
-const char* ssid = "E318-1C7"; // Đổi lại theo wifi của bạn nhé
-const char* password = "bme318c7";
+const char* ssid = "Trâm Anh";
+const char* password = "12345678";
 
 void setup() {
     Serial.begin(115200);
     Serial.println("\n--- ESP32 KHOI DONG ---");
 
-    // Bật I2C dùng chung cho OLED và MAX30102
     Wire.begin(); 
     Wire.setClock(400000);
 
-    // Khởi tạo toàn bộ phần cứng
     initOLED();
     initSDCard(4); 
     initECG();
     initMAX30102();
     initWiFiAndWeb(ssid, password);
 
-    // Kích hoạt Watchdog Timer (Chống treo 5 giây)
     esp_task_wdt_init(5, true); 
     esp_task_wdt_add(NULL); 
 }
 
 void loop() {
-    esp_task_wdt_reset(); // "Cho chó ăn" để mạch không bị reset
+    esp_task_wdt_reset(); 
 
     unsigned long currentMillis = millis();
 
@@ -66,19 +68,29 @@ void loop() {
     if (currentMillis - lastSampleTime >= SAMPLE_INTERVAL) {
         lastSampleTime = currentMillis;
 
-        // Xử lý tín hiệu
-        processECG(isLeadsOff, yPos_ECG, ecgFiltered, ecgBeatAvg);
-        processMAX30102(fingerState, ppgFiltered, yPos_PPG_current, maxBeatAvg, currentSpO2, statusMsg, isLeadsOff);
+        // Cập nhật hàm gọi với đầy đủ các tham số timestamp
+        processECG(isLeadsOff, yPos_ECG, ecgFiltered, ecgBeatAvg, lastEcgTime);
+        processMAX30102(fingerState, ppgFiltered, yPos_PPG_current, maxBeatAvg, currentSpO2, statusMsg, isLeadsOff, newPpgBeat, lastPpgTime);
         
-        // Vẽ đồ thị
+        // TÍNH TOÁN PAT: Tính độ trễ giữa đỉnh ECG và đỉnh PPG
+        if (newPpgBeat) {
+            if (lastPpgTime > lastEcgTime) {
+                int calcPAT = lastPpgTime - lastEcgTime;
+                // Lọc nhiễu: Giữ lại các giá trị PAT hợp lý trong khoảng sinh lý học (50ms - 400ms)
+                if (calcPAT > 50 && calcPAT < 400) {
+                    currentPAT = calcPAT;
+                }
+            }
+        }
+
         drawWaveforms(yPos_ECG, yPos_PPG_current, isLeadsOff, ecgBeatAvg, maxBeatAvg, currentSpO2, fingerState);
 
-        // Đẩy lên Web (Dùng biến đếm để giảm tải băng thông mạng, chỉ gửi mỗi 40ms)
         static int wsCounter = 0;
         wsCounter++;
         if (wsCounter >= 10) {
             wsCounter = 0;
-            sendDataToWeb(ecgFiltered, ppgFiltered, ecgBeatAvg, maxBeatAvg, currentSpO2, statusMsg);
+            // Cập nhật tham số currentPAT để đẩy lên Web
+            sendDataToWeb(ecgFiltered, ppgFiltered, ecgBeatAvg, maxBeatAvg, currentSpO2, currentPAT, statusMsg);
         }
     }
 
@@ -88,10 +100,10 @@ void loop() {
     if (currentMillis - lastLogTime >= LOG_INTERVAL) {
         lastLogTime = currentMillis;
         if (isRecording && (fingerState == 1 || ecgBeatAvg > 0)) {
-            logDataToSD(currentMillis, ecgBeatAvg, maxBeatAvg, currentSpO2);
+            // Cập nhật tham số currentPAT để ghi vào thẻ SD
+            logDataToSD(currentMillis, ecgBeatAvg, maxBeatAvg, currentSpO2, currentPAT);
         }
     }
 
-    // Dọn dẹp bộ nhớ mạng
     cleanupWebClients();
 }

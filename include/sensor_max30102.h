@@ -8,6 +8,6 @@
 #include "spo2_algorithm.h"
 
 void initMAX30102();
-void processMAX30102(int &fingerState, int &ppgFiltered, int &yPos_PPG_current, int &maxBeatAvg, int &currentSpO2, String &statusMsg, bool isLeadsOff);
+void processMAX30102(int &fingerState, int &ppgFiltered, int &yPos_PPG_current, int &maxBeatAvg, int &currentSpO2, String &statusMsg, bool isLeadsOff, bool &newPpgBeat, unsigned long &lastPpgTime);
 
 #endif

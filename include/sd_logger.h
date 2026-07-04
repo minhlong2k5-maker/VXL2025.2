@@ -6,10 +6,9 @@
 #include <SD.h>
 #include <time.h>
 
-// Khai báo các hàm sẽ dùng để gọi từ main.cpp
 void initSDCard(int csPin);
 void markNewSession();
-void logDataToSD(unsigned long currentMillis, int ecgBeatAvg, int maxBeatAvg, int currentSpO2);
+void logDataToSD(unsigned long currentMillis, int ecgBeatAvg, int maxBeatAvg, int currentSpO2, int currentPAT);
 bool resetSDCard();
 
 #endif

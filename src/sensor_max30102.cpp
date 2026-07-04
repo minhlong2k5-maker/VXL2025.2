@@ -34,7 +34,10 @@ void initMAX30102() {
     particleSensor.setSampleRate(100);
 }
 
-void processMAX30102(int &fingerState, int &ppgFiltered, int &yPos_PPG_current, int &maxBeatAvg, int &currentSpO2, String &statusMsg, bool isLeadsOff) {
+void processMAX30102(int &fingerState, int &ppgFiltered, int &yPos_PPG_current, int &maxBeatAvg, int &currentSpO2, String &statusMsg, bool isLeadsOff, bool &newPpgBeat, unsigned long &lastPpgTime) {
+    
+    newPpgBeat = false; // Reset cờ báo nhịp mới ở mỗi chu kỳ quét
+
     particleSensor.check();
     if (particleSensor.available()) {
         uint32_t irValue = particleSensor.getFIFOIR();
@@ -65,6 +68,11 @@ void processMAX30102(int &fingerState, int &ppgFiltered, int &yPos_PPG_current, 
             if (checkForBeat(irValue) == true) {
                 long delta = millis() - lastMaxBeat;
                 lastMaxBeat = millis();
+                
+                // XUẤT THỜI GIAN VÀ CỜ BÁO NHỊP MỚI RA NGOÀI
+                newPpgBeat = true;
+                lastPpgTime = lastMaxBeat;
+
                 float bpm = 60 / (delta / 1000.0);
                 if (bpm > 40 && bpm < 180) {
                     rates[rateSpot++] = (byte)bpm;

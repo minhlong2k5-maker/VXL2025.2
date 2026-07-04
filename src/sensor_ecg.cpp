@@ -1,5 +1,5 @@
 #include "sensor_ecg.h"
-#include "display_oled.h" // Dùng để lấy các biến ranh giới màn hình
+#include "display_oled.h" 
 
 const int ECG_PIN = 34;
 const int LO_PLUS_PIN = 25;  
@@ -19,7 +19,7 @@ void initECG() {
     pinMode(LO_MINUS_PIN, INPUT);
 }
 
-void processECG(bool &isLeadsOff, int &yPos_ECG, float &ecgFiltered, int &ecgBeatAvg) {
+void processECG(bool &isLeadsOff, int &yPos_ECG, float &ecgFiltered, int &ecgBeatAvg, unsigned long &lastEcgTime) {
     isLeadsOff = (digitalRead(LO_PLUS_PIN) == 1 || digitalRead(LO_MINUS_PIN) == 1);
     yPos_ECG = 0;
 
@@ -50,6 +50,9 @@ void processECG(bool &isLeadsOff, int &yPos_ECG, float &ecgFiltered, int &ecgBea
             }
         }
         if (ecgFiltered < 2100) ecgBeatDetected = false;
+        
+        // TRUYỀN THỜI GIAN ĐỈNH R RA NGOÀI
+        lastEcgTime = lastEcgBeatTime;
         
         if (ecgBeatAvg > 0) {
             if (ecgBeatAvg < 50 || ecgBeatAvg > 120) {

@@ -11,26 +11,26 @@ const char index_html[] PROGMEM = R"rawliteral(
     body { background:#121212; color:#fff; font-family:sans-serif; text-align:center; padding:10px; }
     .status-bar { background:#001a33; padding:10px; margin-bottom:10px; border-radius:8px; border-left:5px solid #ff8c00; font-size: 1.2em; box-shadow: 0 2px 10px rgba(0, 26, 51, 0.5); }
     .grid { display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px; margin-bottom:10px; }
-    .card { background:#1e1e1e; padding:15px; border-radius:10px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); border-top: 2px solid #333; }
+    .card { background:#1e1e1e; padding:15px; border-radius:10px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); border-top: 2px solid #001a33; border-bottom: 2px solid #ff8c00; }
     .val { font-size:2.5em; font-weight:bold; color:#00ffcc; }
-    .val.spo2 { color: #ff3366; }
+    .val.spo2 { color: #ff8c00; }
     
-    .chart-box { background:#000; border-radius:10px; padding:10px; height:250px; margin-bottom:15px; position:relative; border: 1px solid #222; }
-    .no-signal { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); color:#ff3366; display:flex; align-items:center; justify-content:center; font-size:3em; font-weight:bold; z-index:10; border-radius:10px; }
+    .chart-box { background:#000; border-radius:10px; padding:10px; height:250px; margin-bottom:15px; position:relative; border: 1px solid #001a33; }
+    .no-signal { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); color:#ff8c00; display:flex; align-items:center; justify-content:center; font-size:3em; font-weight:bold; z-index:10; border-radius:10px; }
     
     .btn-group { margin-bottom: 15px; }
     .btn { padding: 10px 20px; color: #fff; border: none; border-radius: 5px; font-size: 1em; font-weight: bold; cursor: pointer; margin: 0 5px; transition: 0.3s; }
     .btn-download { background: #555; }
-    .btn-view { background: #00ffcc; color: #000; }
-    .btn-cardio { background: #ff8c00; color: #001a33; box-shadow: 0 0 10px rgba(255, 140, 0, 0.3); }
+    .btn-view { background: #001a33; color: #ff8c00; border: 1px solid #ff8c00; }
+    .btn-cardio { background: #ff8c00; color: #001a33; box-shadow: 0 0 10px rgba(255, 140, 0, 0.3); font-size: 1.1em;}
     .btn-cardio:hover { background: #e67e00; }
     
     .btn-record { background: #1a0000; border: 2px solid #ff3366; color: #ff3366; }
     .btn-record.active { background: #ff3366; color: #fff; box-shadow: 0 0 15px rgba(255, 51, 102, 0.6); animation: pulse 1.5s infinite; }
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
     
-    .btn-export { background: #00aaff; color: #001a33; border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; font-size: 1.1em; cursor: pointer; margin-top: 15px; width: 100%; transition: 0.3s; }
-    .btn-export:hover { background: #0088cc; color: #fff; }
+    .btn-export { background: #001a33; color: #ff8c00; border: 2px solid #ff8c00; padding: 12px 20px; border-radius: 8px; font-weight: bold; font-size: 1.1em; cursor: pointer; margin-top: 15px; width: 100%; transition: 0.3s; }
+    .btn-export:hover { background: #ff8c00; color: #001a33; }
 
     table { width: 100%; border-collapse: collapse; margin-top: 15px; display: none; background: #1e1e1e; border-radius: 8px; overflow: hidden; }
     th, td { border: 1px solid #444; padding: 10px; text-align: center; }
@@ -38,12 +38,12 @@ const char index_html[] PROGMEM = R"rawliteral(
     tr:nth-child(even) { background-color: #2a2a2a; }
     
     .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); overflow-y: auto; }
-    .modal-content { background-color: #1e1e1e; margin: 5% auto; padding: 25px; border: 2px solid #ff8c00; border-radius: 10px; width: 90%; max-width: 600px; text-align: left; box-shadow: 0 4px 20px rgba(255,140,0,0.3); }
-    .close-btn { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+    .modal-content { background-color: #1e1e1e; margin: 5% auto; padding: 25px; border: 3px solid #001a33; border-radius: 10px; width: 90%; max-width: 650px; text-align: left; box-shadow: 0 4px 20px rgba(255,140,0,0.2); }
+    .close-btn { color: #ff8c00; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
     .close-btn:hover { color: #fff; }
     
-    .medical-section { background: #111; padding: 15px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #00ffcc; }
-    .medical-title { color: #00ffcc; font-size: 1.1em; font-weight: bold; margin-bottom: 8px; border-bottom: 1px dashed #333; padding-bottom: 5px; }
+    .medical-section { background: #111; padding: 15px; border-radius: 8px; margin-top: 15px; border-left: 5px solid #001a33; }
+    .medical-title { color: #ff8c00; font-size: 1.1em; font-weight: bold; margin-bottom: 8px; border-bottom: 1px dashed #333; padding-bottom: 5px; }
     .medical-text { font-size: 0.95em; color: #ccc; line-height: 1.5; margin: 5px 0;}
   </style>
 </head>
@@ -60,7 +60,7 @@ const char index_html[] PROGMEM = R"rawliteral(
 
   <div class="btn-group">
     <button id="btnRecord" class="btn btn-record" onclick="toggleRecord()">🔴 BẮT ĐẦU GHI (OFF)</button>
-    <button class="btn btn-cardio" onclick="evaluateCardio()">❤️ ĐÁNH GIÁ CHẤT LƯỢNG TIM MẠCH</button>
+    <button class="btn btn-cardio" onclick="evaluateCardio()">🩺 CHẨN ĐOÁN HUYẾT ÁP & MẠCH MÁU</button>
   </div>
   <div class="btn-group">
     <a href="/download"><button class="btn btn-download">📥 FULL SD (.CSV)</button></a>
@@ -70,7 +70,7 @@ const char index_html[] PROGMEM = R"rawliteral(
 
   <div class="chart-box"><canvas id="ecgChart"></canvas></div>
   <div class="chart-box">
-    <div id="noSignalBox" class="no-signal">NO SIGNAL</div>
+    <div id="noSignalBox" class="no-signal">CHƯA ĐẶT TAY</div>
     <canvas id="ppgChart"></canvas>
   </div>
   <table id="dataTable"></table>
@@ -78,7 +78,7 @@ const char index_html[] PROGMEM = R"rawliteral(
   <div id="cardioModal" class="modal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModal()">&times;</span>
-      <h2 style="color: #ff8c00; border-bottom: 1px solid #444; padding-bottom: 10px; margin-top:0; text-align: center;">BÁO CÁO TỪ LẦN ĐO GẦN NHẤT</h2>
+      <h2 style="color: #ff8c00; background: #001a33; padding: 10px; border-radius: 5px; text-align: center; margin-top:0;">BÁO CÁO Y SINH - PAT ANALYSIS</h2>
       <div id="cardioResult">Đang tải và xử lý dữ liệu...</div>
     </div>
   </div>
@@ -97,22 +97,16 @@ const char index_html[] PROGMEM = R"rawliteral(
     var ctx2 = document.getElementById('ppgChart').getContext('2d');
     var chart2 = new Chart(ctx2, { 
       type: 'line', 
-      data: { labels: timeLabels, datasets: [{ borderColor: '#ff3366', data: ppgData, pointRadius: 0, borderWidth: 2, tension: 0.4 }] }, 
+      data: { labels: timeLabels, datasets: [{ borderColor: '#ff8c00', data: ppgData, pointRadius: 0, borderWidth: 2, tension: 0.4 }] }, 
       options: { animation: false, maintainAspectRatio: false, scales: { x: { display: false }, y: { min: -200, max: 200, display: true, grid: { color: '#2a2a2a', lineWidth: 1 }, ticks: { display: true, color: '#ffffff', font: { size: 12, weight: 'bold' } } } }, plugins: { legend: { display: false } } } 
     });
     
     var wsProtocol = (window.location.protocol === "https:") ? "wss://" : "ws://";
     var gateway = wsProtocol + window.location.hostname + "/ws";
     var websocket = new WebSocket(gateway);
-    
     let generatedHtmlReport = ""; 
-    let renderCounter = 0; // Biến đếm để giảm khung hình vẽ
 
-    function toggleRecord() {
-      if(websocket.readyState === WebSocket.OPEN) {
-        websocket.send("TOGGLE_RECORD");
-      }
-    }
+    function toggleRecord() { if(websocket.readyState === WebSocket.OPEN) websocket.send("TOGGLE_RECORD"); }
     
     websocket.onmessage = function(e) {
       var d = JSON.parse(e.data);
@@ -140,11 +134,9 @@ const char index_html[] PROGMEM = R"rawliteral(
 
       ecgData.push(d.v); ecgData.shift(); 
       ppgData.push(d.p); ppgData.shift();
-      
       var parts = d.t.split(" ");
       if (parts.length === 2) { timeLabels.push([parts[0], parts[1]]); } else { timeLabels.push(d.t); }
       timeLabels.shift();
-      
       chart.update(); chart2.update();
     };
 
@@ -153,104 +145,72 @@ const char index_html[] PROGMEM = R"rawliteral(
 
     function evaluateCardio() {
         document.getElementById('cardioModal').style.display = 'block';
-        document.getElementById('cardioResult').innerHTML = "<div style='text-align:center; padding: 20px;'>Đang kiểm tra kết nối cảm biến và phân tích dữ liệu...</div>";
+        document.getElementById('cardioResult').innerHTML = "<div style='text-align:center; padding: 20px; color:#ff8c00;'>Đang phân tích dữ liệu PAT từ thẻ SD...</div>";
         
         fetch('/download').then(response => response.text()).then(data => {
             let lines = data.split('\n').filter(l => l.trim().length > 0);
-            
             let lastSessionIdx = -1;
-            for (let i = lines.length - 1; i >= 0; i--) {
-                if (lines[i].includes("---NEW_SESSION---")) {
-                    lastSessionIdx = i;
-                    break;
-                }
-            }
+            for (let i = lines.length - 1; i >= 0; i--) { if (lines[i].includes("---NEW_SESSION---")) { lastSessionIdx = i; break; } }
             
-            let sessionLines = [];
-            if (lastSessionIdx !== -1) {
-                sessionLines = lines.slice(lastSessionIdx + 1); 
-            } else {
-                lines.shift(); 
-                sessionLines = lines;
-            }
+            let sessionLines = lastSessionIdx !== -1 ? lines.slice(lastSessionIdx + 1) : lines.slice(1);
             
-            let validEcg = []; 
-            let validPpg = []; 
-            let validSpO2 = [];
-            let validPairsCount = 0;
-            let pulseDeficitCount = 0; 
-            
+            let validEcg = [], validSpO2 = [], validPAT = [];
             let tableRowsHTML = "";
 
             sessionLines.forEach(line => {
                 let cols = line.split(',');
-                if(cols.length >= 4 && !line.includes("---NEW_SESSION---")) {
-                    tableRowsHTML += `<tr><td>${cols[0]}</td><td>${cols[1]}</td><td>${cols[2]}</td><td>${cols[3]}</td></tr>`;
+                if(cols.length >= 5 && !line.includes("---NEW_SESSION---")) {
+                    tableRowsHTML += `<tr><td>${cols[0]}</td><td>${cols[1]}</td><td>${cols[2]}</td><td>${cols[3]}</td><td>${cols[4]}</td></tr>`;
                     let ecgHR = parseInt(cols[1]); 
-                    let ppgHR = parseInt(cols[2]); 
                     let spo2 = parseInt(cols[3]);  
-                    
-                    let hasEcg = (ecgHR > 40 && ecgHR < 180);
-                    let hasPpg = (ppgHR > 40 && ppgHR < 180 && spo2 > 70);
+                    let pat = parseInt(cols[4]);
 
-                    if(hasEcg) validEcg.push(ecgHR);
-                    if(hasPpg) {
-                        validPpg.push(ppgHR);
-                        validSpO2.push(spo2);
-                    }
-
-                    if(hasEcg && hasPpg) {
-                        validPairsCount++;
-                        if (Math.abs(ecgHR - ppgHR) > 12) pulseDeficitCount++;
-                    }
+                    if(ecgHR > 40 && ecgHR < 180) validEcg.push(ecgHR);
+                    if(spo2 > 70) validSpO2.push(spo2);
+                    if(pat > 50 && pat < 400) validPAT.push(pat);
                 }
             });
 
-            if(validEcg.length < 15 || validPpg.length < 15) {
-                let errorHtml = "<h3 style='color:#ff9900; text-align:center;'>Không đủ dữ liệu đồng bộ!</h3>";
-                errorHtml += "<p style='text-align:center;'>Hệ thống yêu cầu cả 2 cảm biến phải ghi nhận tín hiệu đồng thời để có thể đối chiếu.</p>";
-                errorHtml += "<div style='background: #222; padding: 15px; border-radius: 8px; text-align: left; width: 90%; margin: 0 auto;'>";
-                
-                if (validEcg.length < 15) errorHtml += "<p style='color:#ff3366; margin: 5px 0;'>❌ <b>Điện tim (ECG):</b> Mất tín hiệu (Chỉ đo được " + validEcg.length + " giây). Hãy kiểm tra lại miếng dán ngực và dây dẫn.</p>";
-                else errorHtml += "<p style='color:#00ffcc; margin: 5px 0;'>✅ <b>Điện tim (ECG):</b> Tín hiệu ổn định (" + validEcg.length + " giây).</p>";
-
-                if (validPpg.length < 15) errorHtml += "<p style='color:#ff3366; margin: 5px 0;'>❌ <b>Mạch ngón tay (MAX30102):</b> Mất tín hiệu (Chỉ đo được " + validPpg.length + " giây). Hãy đảm bảo ngón tay đặt chắc chắn lên cảm biến.</p>";
-                else errorHtml += "<p style='color:#00ffcc; margin: 5px 0;'>✅ <b>Mạch ngón tay (MAX30102):</b> Tín hiệu ổn định (" + validPpg.length + " giây).</p>";
-
-                errorHtml += "</div>";
-                errorHtml += "<p style='text-align:center; margin-top: 15px; color:#aaa;'>Vui lòng chỉnh lại cảm biến, nhấn <b>🔴 BẮT ĐẦU GHI</b> và đo lại tối thiểu 1 phút.</p>";
-                
-                document.getElementById('cardioResult').innerHTML = errorHtml;
-                return;
+            if(validPAT.length < 15) {
+                document.getElementById('cardioResult').innerHTML = `
+                    <h3 style='color:#ff8c00; text-align:center;'>Không đủ dữ liệu PAT đồng bộ!</h3>
+                    <p style='text-align:center;'>Yêu cầu đo tối thiểu 15 giây liên tục có ngón tay để bắt đỉnh R và đỉnh PPG.</p>
+                    <p style='text-align:center; color:#aaa;'>Vui lòng nhấn <b>🔴 BẮT ĐẦU GHI</b> và thử lại.</p>
+                `; return;
             }
 
             let avgEcgHR = validEcg.reduce((a, b) => a + b, 0) / validEcg.length;
             let avgSpO2 = validSpO2.reduce((a, b) => a + b, 0) / validSpO2.length;
-            let deficitRate = (pulseDeficitCount / validPairsCount) * 100; 
-            
+            let avgPAT = validPAT.reduce((a, b) => a + b, 0) / validPAT.length;
+
+            // Tính biến thiên PAT (Delta PAT) giữa nửa đầu và nửa sau phiên đo
+            let halfLen = Math.floor(validPAT.length / 2);
+            let firstHalf = validPAT.slice(0, halfLen);
+            let secondHalf = validPAT.slice(halfLen);
+            let avgFirstPAT = firstHalf.reduce((a,b)=>a+b,0) / firstHalf.length;
+            let avgSecondPAT = secondHalf.reduce((a,b)=>a+b,0) / secondHalf.length;
+            let deltaPAT = avgSecondPAT - avgFirstPAT;
+
             let cardioScore = 100;
             if (avgEcgHR > 95) cardioScore -= (avgEcgHR - 95); else if (avgEcgHR < 55) cardioScore -= (55 - avgEcgHR);
             if (avgSpO2 < 95) cardioScore -= ((95 - avgSpO2) * 2);
-            cardioScore -= (deficitRate * 1.5); 
+            
+            let bpTrendStr = "", bpDetail = "", stiffnessStr = "";
+            
+            if (avgPAT < 200) { stiffnessStr = "DẤU HIỆU CỨNG HÓA"; cardioScore -= 15; } 
+            else { stiffnessStr = "ĐÀN HỒI TỐT"; }
+
+            if (deltaPAT < -5) { bpTrendStr = "XU HƯỚNG TĂNG"; bpDetail = "Thời gian truyền sóng đang bị rút ngắn dần. Áp lực máu lên thành mạch tăng."; cardioScore -= 10; }
+            else if (deltaPAT > 5) { bpTrendStr = "XU HƯỚNG GIẢM"; bpDetail = "Thời gian truyền sóng dài ra, mạch máu đang giãn và áp lực giảm."; }
+            else { bpTrendStr = "ỔN ĐỊNH"; bpDetail = "Không có sự biến thiên lớn về áp suất mạch máu trong phiên đo."; }
+            
             cardioScore = Math.max(0, Math.min(100, Math.round(cardioScore))); 
 
-            let status = "", color = "", conclusion = "", medicalDetail = "", themeColor = "";
-            
-            if(cardioScore >= 85) { 
-                status = "HỆ TIM MẠCH ỔN ĐỊNH"; color = "#00ffcc"; themeColor = "#28a745"; 
-                conclusion = "Tuần hoàn ngoại vi tốt, cơ tim co bóp hiệu quả.";
-                medicalDetail = "• <b>Chức năng bơm máu:</b> Hoạt động đồng bộ giữa lệnh thần kinh (ECG) và mạch thể tích thực tế (PPG) hoàn hảo.<br>• <b>Tưới máu:</b> SpO2 duy trì tốt phản ánh khả năng cung cấp oxy ngoại vi không bị cản trở.";
-            }
-            else if (cardioScore >= 65) { 
-                status = "CẦN LƯU Ý THEO DÕI"; color = "#ff9900"; themeColor = "#ffc107";
-                conclusion = "Hiệu suất bơm máu ngoại vi giảm nhẹ hoặc nhịp tim nền cao.";
-                medicalDetail = "• <b>Yếu tố:</b> Có sự xuất hiện của độ lệch điện - cơ nhẹ. Hệ thần kinh phát lệnh nhưng áp lực chưa đủ mạnh truyền đến tay.<br>• <b>Khuyến nghị:</b> Thường gặp khi mệt mỏi, stress hoặc sai tư thế. Cần nghỉ ngơi và đo lại phiên mới.";
-            }
-            else { 
-                status = "CẢNH BÁO Y TẾ"; color = "#ff3366"; themeColor = "#dc3545"; 
-                conclusion = "Dấu hiệu rõ rệt của Mạch khuyết (Pulse Deficit) hoặc thiếu oxy.";
-                medicalDetail = "• <b>Phân tích Lâm sàng:</b> Sự sai lệch lớn giữa nhịp ECG và PPG là dấu chỉ điểm của co bóp tâm thất rỗng.<br>• <b>Hành động:</b> Cần thăm khám chuyên khoa Tim mạch ngay lập tức nếu kèm theo khó thở.";
-            }
+            let status = "", conclusion = "", color = "";
+            if (avgPAT >= 200 && bpTrendStr === "ỔN ĐỊNH") { status = "HUYẾT ÁP & MẠCH MÁU KHỎE MẠNH"; conclusion = "Thành mạch có độ đàn hồi tốt, sóng truyền ổn định."; color = "#00ffcc"; }
+            else if (avgPAT >= 200 && bpTrendStr === "XU HƯỚNG TĂNG") { status = "LƯU Ý: HUYẾT ÁP ĐANG TĂNG"; conclusion = "Đàn hồi tốt nhưng nhịp tim và áp lực đang đẩy nhanh sóng mạch."; color = "#ff9900"; }
+            else if (avgPAT < 200 && bpTrendStr === "ỔN ĐỊNH") { status = "LƯU Ý: XƠ CỨNG MẠCH MÁU"; conclusion = "Vận tốc truyền sóng nhanh bất thường, dấu hiệu thành mạch kém đàn hồi."; color = "#ff9900"; }
+            else { status = "CẢNH BÁO Y TẾ KÉP"; conclusion = "Mạch máu kém đàn hồi kèm theo chu kỳ áp lực đang tăng nhanh. Cần nghỉ ngơi ngay."; color = "#ff3366"; }
 
             let reportDate = new Date().toLocaleString('vi-VN');
             generatedHtmlReport = `
@@ -261,30 +221,23 @@ const char index_html[] PROGMEM = R"rawliteral(
                 <title>Bệnh án Tim mạch - HUST Health Monitor</title>
                 <style>
                     body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f4f7f6; color: #333; margin: 0; padding: 20px; }
-                    .container { max-width: 900px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-                    .header { text-align: center; border-bottom: 4px solid #cc0000; padding-bottom: 15px; margin-bottom: 25px; }
-                    .header h1 { color: #cc0000; margin: 0; font-size: 26px; text-transform: uppercase; letter-spacing: 1px; }
-                    .header h2 { color: #555; margin: 8px 0 0 0; font-size: 18px; }
+                    .container { max-width: 900px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 10px solid #001a33; }
+                    .header { text-align: center; border-bottom: 4px solid #ff8c00; padding-bottom: 15px; margin-bottom: 25px; }
+                    .header h1 { color: #001a33; margin: 0; font-size: 26px; font-weight: 900; }
+                    .header h2 { color: #ff8c00; margin: 8px 0 0 0; font-size: 18px; text-transform: uppercase;}
                     .header p { color: #888; font-size: 13px; margin-top: 5px; }
-                    
                     .dashboard { display: flex; justify-content: space-between; gap: 20px; margin-bottom: 30px; }
-                    .box { background: #f9f9f9; padding: 20px; border-radius: 8px; border-left: 5px solid #cc0000; flex: 1; }
-                    
-                    .score-panel { text-align: center; border-left-color: ${themeColor}; }
-                    .score-circle { width: 120px; height: 120px; border-radius: 50%; background: ${themeColor}; color: white; display: flex; align-items: center; justify-content: center; font-size: 42px; font-weight: bold; margin: 0 auto 10px auto; box-shadow: 0 4px 10px rgba(0,0,0,0.2); border: 5px solid #fff; outline: 3px solid ${themeColor}; }
-                    .status-title { color: ${themeColor}; font-size: 20px; font-weight: bold; margin-top: 15px; text-transform: uppercase;}
-                    
-                    h3 { color: #cc0000; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-top: 0; }
+                    .box { background: #f9f9f9; padding: 20px; border-radius: 8px; border-left: 5px solid #001a33; flex: 1; }
+                    .score-panel { text-align: center; border-left-color: #ff8c00; }
+                    .score-circle { width: 120px; height: 120px; border-radius: 50%; background: #001a33; color: #ff8c00; display: flex; align-items: center; justify-content: center; font-size: 42px; font-weight: bold; margin: 0 auto 10px auto; border: 5px solid #fff; outline: 3px solid #ff8c00; }
+                    .status-title { color: #001a33; font-size: 18px; font-weight: bold; margin-top: 15px; }
+                    h3 { color: #001a33; border-bottom: 2px solid #ff8c00; padding-bottom: 5px; margin-top: 0; display: inline-block;}
                     .info-line { margin: 8px 0; font-size: 15px; }
-                    
-                    .detail-box { background: #fff; padding: 20px; border: 1px solid #ddd; border-left: 5px solid #001a33; border-radius: 8px; margin-bottom: 30px; }
-                    
+                    .detail-box { background: #fff; padding: 20px; border: 1px solid #ddd; border-left: 5px solid #ff8c00; border-radius: 8px; margin-bottom: 30px; }
                     table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 10px; }
                     th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
-                    th { background-color: #cc0000; color: white; position: sticky; top: 0; }
+                    th { background-color: #001a33; color: #ff8c00; position: sticky; top: 0; }
                     tr:nth-child(even) { background-color: #f4f4f4; }
-                    tr:hover { background-color: #ffe6e6; }
-                    
                     .footer { text-align: center; margin-top: 40px; font-size: 12px; color: #888; border-top: 1px solid #eee; padding-top: 15px; }
                 </style>
             </head>
@@ -292,51 +245,51 @@ const char index_html[] PROGMEM = R"rawliteral(
                 <div class="container">
                     <div class="header">
                         <h1>ĐẠI HỌC BÁCH KHOA HÀ NỘI</h1>
-                        <h2>PHIẾU KẾT QUẢ ĐÁNH GIÁ CHẤT LƯỢNG TIM MẠCH</h2>
+                        <h2>PHÂN TÍCH HUYẾT ÁP BẰNG THUẬT TOÁN P.A.T</h2>
                         <p>Thời gian trích xuất: ${reportDate}</p>
                     </div>
                     
                     <div class="dashboard">
                         <div class="box score-panel">
-                            <h3>ĐIỂM ĐÁNH GIÁ TỔNG HỢP</h3>
+                            <h3>ĐIỂM SỨC KHỎE</h3>
                             <div class="score-circle">${cardioScore}</div>
                             <div class="status-title">${status}</div>
                         </div>
                         
                         <div class="box">
-                            <h3>THÔNG SỐ LÂM SÀNG THU THẬP</h3>
+                            <h3>CHỈ SỐ THU THẬP</h3>
                             <p class="info-line">♥ <b>Nhịp tim nền (ECG):</b> ${Math.round(avgEcgHR)} BPM</p>
-                            <p class="info-line">🫁 <b>Độ bão hòa Oxy (SpO2):</b> ${Math.round(avgSpO2)} %</p>
-                            <p class="info-line">⚡ <b>Tỷ lệ Mạch khuyết:</b> ${deficitRate.toFixed(1)} %</p>
-                            <p class="info-line">⏱ <b>Kích thước mẫu đồng bộ:</b> ${validPairsCount} giây</p>
-                            <hr style="border:0; border-top:1px solid #ddd; margin: 15px 0;">
-                            <p class="info-line"><b>Kết luận tóm tắt:</b> ${conclusion}</p>
+                            <p class="info-line">🫁 <b>Oxy trong máu (SpO2):</b> ${Math.round(avgSpO2)} %</p>
+                            <p class="info-line">⚡ <b>PAT Trung bình:</b> ${Math.round(avgPAT)} ms</p>
+                            <p class="info-line">⏱ <b>Biến thiên Huyết áp:</b> ${bpTrendStr} (${deltaPAT > 0 ? '+':''}${deltaPAT.toFixed(1)} ms)</p>
+                            <hr style="border:0; border-top:1px dashed #001a33; margin: 15px 0;">
+                            <p class="info-line"><b>Kết luận:</b> ${conclusion}</p>
                         </div>
                     </div>
 
                     <div class="detail-box">
-                        <h3 style="color: #001a33;">CHI TIẾT CHẨN ĐOÁN Y KHOA</h3>
-                        <p style="line-height: 1.6;">${medicalDetail}</p>
+                        <h3 style="color: #ff8c00; border-color: #001a33;">GIẢI THÍCH LÂM SÀNG</h3>
+                        <p style="line-height: 1.6;">• <b>Độ cứng Động mạch:</b> ${stiffnessStr}. ${avgPAT < 200 ? 'Sóng áp lực truyền đi quá nhanh do thành mạch cứng.' : 'Thành mạch mềm mại, co giãn tốt để hấp thụ áp lực máu.'}</p>
+                        <p style="line-height: 1.6;">• <b>Động lực Huyết áp:</b> ${bpDetail}</p>
                     </div>
 
-                    <h3 style="margin-top: 30px;">BẢNG DỮ LIỆU ĐO CHI TIẾT (RAW DATA)</h3>
+                    <h3 style="margin-top: 30px;">DỮ LIỆU ĐO CHI TIẾT (RAW DATA)</h3>
                     <table>
                         <thead>
                             <tr>
-                                <th>Thời gian (ms/Ngày)</th>
-                                <th>Nhịp Điện (ECG)</th>
-                                <th>Nhịp Thể Tích (PPG)</th>
+                                <th>Thời gian</th>
+                                <th>ECG (BPM)</th>
+                                <th>PPG (BPM)</th>
                                 <th>SpO2 (%)</th>
+                                <th>PAT (ms)</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            ${tableRowsHTML}
-                        </tbody>
+                        <tbody>${tableRowsHTML}</tbody>
                     </table>
 
                     <div class="footer">
-                        <p>Báo cáo được trích xuất tự động từ Hệ thống Monitor Y Sinh bằng công nghệ Edge Computing.</p>
-                        <p><b>Lưu ý:</b> Chỉ số mang tính chất tham khảo kỹ thuật cho nghiên cứu, không thay thế chẩn đoán y khoa chuyên nghiệp.</p>
+                        <p>Báo cáo trích xuất từ Hệ thống Monitor Y Sinh bằng công nghệ Edge Computing.</p>
+                        <p><b>Lưu ý:</b> Chỉ số PAT có tính chất tham khảo nghiên cứu sinh lý học, không thay thế máy đo bắp tay y tế.</p>
                     </div>
                 </div>
             </body>
@@ -345,24 +298,25 @@ const char index_html[] PROGMEM = R"rawliteral(
 
             document.getElementById('cardioResult').innerHTML = `
                 <div style="text-align: center; margin-bottom: 20px;">
-                    <h1 style="color:${color}; margin: 10px 0; font-size: 1.8em;">${status}</h1>
+                    <h1 style="color:${color}; margin: 10px 0; font-size: 1.6em; font-weight: 900;">${status}</h1>
                     <p style="font-size: 1.2em;">Điểm Y khoa: <b style="font-size: 1.8em; color:${color};">${cardioScore}</b> <span style="font-size: 0.8em;">/100</span></p>
                     <p style="color:#ccc; font-style:italic; font-size:1em;">${conclusion}</p>
                 </div>
                 
-                <div class="medical-section" style="border-left-color: #00aaff;">
-                    <div class="medical-title" style="color: #00aaff;">1. THỐNG KÊ TỪ PHIÊN ĐO NÀY (Đồng bộ: ${validPairsCount}s)</div>
+                <div class="medical-section" style="border-left-color: #001a33;">
+                    <div class="medical-title" style="color: #ff8c00;">1. KẾT QUẢ ĐO P.A.T (Pulse Arrival Time)</div>
+                    <p class="medical-text">⏱ Thời gian truyền sóng trung bình: <b style="color: #fff;">${Math.round(avgPAT)} ms</b></p>
+                    <p class="medical-text">🧬 Trạng thái đàn hồi mạch máu: <b style="color: #fff;">${stiffnessStr}</b></p>
+                    <p class="medical-text">📈 Động lực xu hướng Huyết áp: <b style="color: #fff;">${bpTrendStr}</b></p>
+                </div>
+
+                <div class="medical-section" style="border-left-color: #ff8c00;">
+                    <div class="medical-title" style="color: #ff8c00;">2. CHỈ SỐ NỀN</div>
                     <p class="medical-text">♥ Tần số tim cơ bản (ECG): <b>${Math.round(avgEcgHR)} BPM</b></p>
                     <p class="medical-text">🫁 Độ bão hòa Oxy (SpO2): <b>${Math.round(avgSpO2)}%</b></p>
-                    <p class="medical-text">⚡ Tỷ lệ Mạch khuyết (Pulse Deficit): <b>${deficitRate.toFixed(1)}%</b></p>
                 </div>
 
-                <div class="medical-section" style="border-left-color: ${color};">
-                    <div class="medical-title" style="color: ${color};">2. CHẨN ĐOÁN CỦA HỆ THỐNG</div>
-                    <p class="medical-text">${medicalDetail}</p>
-                </div>
-
-                <button class="btn-export" onclick="exportHTMLReport()">💾 TẢI PHIẾU BÁO CÁO CHI TIẾT</button>
+                <button class="btn-export" onclick="exportHTMLReport()">💾 XUẤT PHIẾU BÁO CÁO Y SINH</button>
             `;
         }).catch(err => { document.getElementById('cardioResult').innerHTML = "<p style='color:red; text-align:center;'>Lỗi truy xuất dữ liệu! Hãy kiểm tra thẻ SD.</p>"; });
     }
@@ -372,7 +326,7 @@ const char index_html[] PROGMEM = R"rawliteral(
         let blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), generatedHtmlReport], {type: "text/html;charset=utf-8"});
         let link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
-        link.download = "PhieuKetQua_TimMach_HUST_" + new Date().getTime() + ".html";
+        link.download = "BaoCao_PAT_HUST_" + new Date().getTime() + ".html";
         link.click();
     }
     
